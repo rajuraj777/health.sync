@@ -12,8 +12,14 @@ export function useLatLong() {
           setLatitude(position.coords.latitude);
           setLongitude(position.coords.longitude);
         },
-        (error) => console.error("Error getting location:", error),
-        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+        (error) => {
+          console.error("Error getting location:", error);
+        if (error instanceof Error) {
+          console.error("Error message:", error.message);
+        }
+
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
       );
     } else {
       console.error("Geolocation is not supported by this browser.");

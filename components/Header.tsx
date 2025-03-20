@@ -217,7 +217,8 @@ const Header = ({ onSearchStateChange, input, lat, long }: Props) => {
           setWatchId(currentWatchId);
         },
         (error) => {
-          console.error("getCurrentPosition error:", error);
+          console.error("getCurrentPosition error:", error, error?.code, error?.message);
+
           setStatus(`Error getting location: ${error.message}`);
           currentWatchId = navigator.geolocation.watchPosition(
             (newPosition) => {
