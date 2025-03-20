@@ -4,7 +4,20 @@
     "eslint:recommended",
     "plugin:react/recommended"
   ],
+  "plugins": [
+    "react",
+    "next"
+  ],
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2021": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
   "rules": {
-    // Add any custom ESLint rules here
+    // Add your custom rules here
   }
 }
