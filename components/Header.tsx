@@ -218,8 +218,11 @@ const Header = ({ onSearchStateChange, input, lat, long }: Props) => {
         },
         (error) => {
           console.error("getCurrentPosition error:", error, error?.code, error?.message);
-
-          setStatus(`Error getting location: ${error.message}`);
+          if (error.code === error.PERMISSION_DENIED) {
+            setStatus("User denied Geolocation.");
+          } else {
+            setStatus(`Error getting location: ${error.message}`);
+          }
           currentWatchId = navigator.geolocation.watchPosition(
             (newPosition) => {
               const {

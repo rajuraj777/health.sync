@@ -1,30 +1,34 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-export function useLatLong() {
-  const [latitude, setLatitude] = useState<number | null>(null);
-  const [longitude, setLongitude] = useState<number | null>(null);
+const useLatLong = () => {
+  const [location, setLocation] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setLatitude(position.coords.latitude);
-          setLongitude(position.coords.longitude);
-        },
-        (error) => {
-          console.error("Error getting location:", error);
-        if (error instanceof Error) {
-          console.error("Error message:", error.message);
-        }
+    if (typeof window !== "undefined" && navigator.geolocation) {
+      const getLocation = () => {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            setLocation(position);
+            console.log("Position:", position);
+          },
+          (error) => {
+            console.error("Error getting location:", error);
+            if (error && error.code && error.message) {
+              setErrorMessage(`Error getting location: ${error.message}`);
+            } else {
+              setErrorMessage("Unknown geolocation error occurred.");
+            }
+          }
+        );
+      };
 
-      },
-      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
-      );
-    } else {
-      console.error("Geolocation is not supported by this browser.");
+      getLocation();
     }
   }, []);
 
-  return { latitude, longitude };
-}
+  return { location, errorMessage };
+};
+
+export default useLatLong;
