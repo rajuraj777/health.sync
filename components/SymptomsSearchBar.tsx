@@ -97,7 +97,7 @@ const SymptomSearchBar = ({
   const [isFocused, setIsFocused] = useState(false);
   const [selectedSymptom, setSelectedSymptom] = useState<Symptom | null>(null);
   const debouncedQuery = useDebounce(query, 200);
-  const { latitude, longitude } = useLatLong();
+  const { lat, lng } = useLatLong();
   const router = useRouter();
 
   useEffect(() => {
@@ -136,7 +136,7 @@ const SymptomSearchBar = ({
       router.push(
         `/search?searchQuery=${encodeURIComponent(
           query
-        )}&latitude=${latitude}&longitude=${longitude}`
+        )}&latitude=${lat}&longitude=${lng}`
       );
     }
   };
